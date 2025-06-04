@@ -1,4 +1,4 @@
-
+using Microsoft.OpenApi.Models;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -13,8 +13,11 @@ namespace LinkDev.Talabat.APIs
             // Add services to the container.
 
             webApplicationBuilder.Services.AddControllers(); // Register Required Services by AspNet Core
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            webApplicationBuilder.Services.AddOpenApi(); 
+                                                             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+            // webApplicationBuilder.Services.AddOpenApi(); 
+            webApplicationBuilder.Services.AddEndpointsApiExplorer();
+            webApplicationBuilder.Services.AddSwaggerGen();
             #endregion
 
             var app = webApplicationBuilder.Build();
@@ -24,7 +27,10 @@ namespace LinkDev.Talabat.APIs
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                // app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
             }
 
             app.UseHttpsRedirection();
