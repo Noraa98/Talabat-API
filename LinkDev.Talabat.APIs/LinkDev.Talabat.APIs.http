@@ -4,3 +4,7 @@
 GET {{LinkDev.Talabat.APIs_HostAddress}}/api/weatherforecast
 
 ###
+
+GET {{LinkDev.Talabat.APIs_HostAddress}}/api/weatherforecast
+
+###
