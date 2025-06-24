@@ -1,3 +1,6 @@
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 namespace LinkDev.Talabat.APIs
 {
@@ -18,6 +21,9 @@ namespace LinkDev.Talabat.APIs
             // webApplicationBuilder.Services.AddOpenApi(); 
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
+
+            webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
+
             #endregion
 
             var app = webApplicationBuilder.Build();
