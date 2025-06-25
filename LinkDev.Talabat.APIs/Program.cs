@@ -1,24 +1,42 @@
-
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
     {
+        // Entry point for the application.
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var webApplicationBuilder = WebApplication.CreateBuilder(args);
+
+            #region Configure Services
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            webApplicationBuilder.Services.AddControllers(); // Register Required Services by AspNet Core
+                                                             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
-            var app = builder.Build();
+            // webApplicationBuilder.Services.AddOpenApi(); 
+            webApplicationBuilder.Services.AddEndpointsApiExplorer();
+            webApplicationBuilder.Services.AddSwaggerGen();
+
+            webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
+
+            #endregion
+
+            var app = webApplicationBuilder.Build();
+
+            #region Configure Kestrel Middlewares
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                // app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
             }
 
             app.UseHttpsRedirection();
@@ -27,6 +45,8 @@ namespace LinkDev.Talabat.APIs
 
 
             app.MapControllers();
+
+            #endregion
 
             app.Run();
         }
