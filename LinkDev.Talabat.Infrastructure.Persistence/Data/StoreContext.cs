@@ -1,10 +1,5 @@
 ﻿using LinkDev.Talabat.Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
@@ -12,6 +7,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
     {
         public StoreContext(DbContextOptions<StoreContext> options) : base(options) 
         {
+
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
 
         }
 
