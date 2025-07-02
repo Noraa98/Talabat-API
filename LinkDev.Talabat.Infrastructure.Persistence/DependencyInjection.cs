@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Infrastructure.Persistence.Data;
+﻿using LinkDev.Talabat.Domain.Contracts;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -15,6 +16,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
 
             });
+            services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
+            services.AddScoped(typeof(IStoreContextInitializer),typeof(StoreContextInitializer));
+
             return services;
         }
     }
