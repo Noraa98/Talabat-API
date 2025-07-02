@@ -1,5 +1,6 @@
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 namespace LinkDev.Talabat.APIs
@@ -7,7 +8,7 @@ namespace LinkDev.Talabat.APIs
     public class Program
     {
         // Entry point for the application.
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,32 @@ namespace LinkDev.Talabat.APIs
 
             #endregion
 
+            #region Update Database
+
             var app = webApplicationBuilder.Build();
+
+            using var scope = app.Services.CreateAsyncScope();
+            var services = scope.ServiceProvider;
+
+            var dbContext = services.GetRequiredService<StoreContext>();
+            // Ask The Runtime env for an object from "StoreContext" service explicitly
+
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+            try
+            {
+                var pendingMigrations = dbContext.Database.GetPendingMigrations();
+
+                if (pendingMigrations.Any())
+                    await dbContext.Database.MigrateAsync();// Apply Migrations if any [UPdate Database Schema]
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "An error occurred during apply yhe migration.");
+            }
+
+            #endregion
 
             #region Configure Kestrel Middlewares
 
