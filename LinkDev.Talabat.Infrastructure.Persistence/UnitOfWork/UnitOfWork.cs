@@ -3,6 +3,7 @@ using LinkDev.Talabat.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using LinkDev.Talabat.Infrastructure.Persistence.Repositories;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,37 +14,37 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly StoreContext _dbContext;
-        private readonly Lazy<IGenericRepository<Product, int>> _productRepository;
-        private readonly Lazy<IGenericRepository<ProductBrand, int>> _brandRepository;
-        private readonly Lazy<IGenericRepository<ProductCategory, int>> _categoryRepository;
+        private readonly ConcurrentDictionary<string, object> _repositories;
         public UnitOfWork(StoreContext dbContext)
         {
             _dbContext = dbContext;
-            _productRepository = new Lazy<IGenericRepository<Product, int>>(() => new GenericRepository<Product, int>(_dbContext));
-            _brandRepository = new Lazy<IGenericRepository<ProductBrand, int>>(() => new GenericRepository<ProductBrand, int>(_dbContext));
-            _categoryRepository = new Lazy<IGenericRepository<ProductCategory, int>>(() => new GenericRepository<ProductCategory, int>(_dbContext));
-
+            _repositories= new ();
 
         }
-        public IGenericRepository<Product, int> ProductRepository => _productRepository.Value;
-        public IGenericRepository<ProductBrand, int> BrandsRepository => _brandRepository.Value;
-        public IGenericRepository<ProductCategory, int> CategoriesRepository => _categoryRepository.Value;
-        public async Task<int> CompleteAsync()
+
+        public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
+           where TEntity : BaseEntity<TKey>
+           where TKey : IEquatable<TKey>
         {
-            // Here you would typically call your DbContext.SaveChangesAsync() method
-            // to persist changes to the database.
-            // For example:
-            // return await _dbContext.SaveChangesAsync();
-            return 0; // Placeholder return value
-        }
-        public void Dispose()
-        {
+            ///return new GenericRepository<TEntity,TKey>(_dbContext);
+
+            /// var typeName = typeof(TEntity).Name; //Product
+            /// if(_repositories.ContainsKey(typeName)) return (IGenericRepository< TEntity, TKey>) _repositories[typeName];
+            /// 
+            /// var repository = new GenericRepository<TEntity, TKey>(_dbContext);
+            /// 
+            /// _repositories.Add(typeName, repository);
+            /// return repository;
+            /// 
+
+            return (IGenericRepository<TEntity, TKey>)_repositories.GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbContext));
+
 
         }
+        public async Task<int> CompleteAsync() => await _dbContext.SaveChangesAsync();
 
-        public ValueTask DisposeAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask DisposeAsync() => await _dbContext.DisposeAsync();
+
+       
     }
 }
