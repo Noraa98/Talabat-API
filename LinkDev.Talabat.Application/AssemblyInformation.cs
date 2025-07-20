@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Application
 {
-    public class AssemblyInformation
+    public static class AssemblyInformation
     {
 
     }

@@ -18,8 +18,8 @@ namespace LinkDev.Talabat.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //services.AddAutoMapper(Mapper => Mapper.AddProfile(new MappingProfile()));
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(Mapper => Mapper.AddProfile(new MappingProfile()));
+            //services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
 
