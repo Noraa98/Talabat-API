@@ -13,11 +13,13 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
         {
             services.AddDbContext<StoreContext>(optionsBuilder =>
             {
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
+                optionsBuilder
+                    .UseLazyLoadingProxies() // Enable Lazy Loading
+                    .UseSqlServer(configuration.GetConnectionString("StoreContext"));
 
             });
             services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
-            services.AddScoped(typeof(IStoreContextInitializer),typeof(StoreContextInitializer));
+            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
             return services;
         }
