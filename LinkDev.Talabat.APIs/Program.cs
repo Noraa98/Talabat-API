@@ -18,7 +18,9 @@ namespace LinkDev.Talabat.APIs
 
             // Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers(); // Register Required Services by AspNet Core
+            webApplicationBuilder.Services
+                .AddControllers()
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly); // Register Required Services by AspNet Core
                                                              // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
             // webApplicationBuilder.Services.AddOpenApi(); 
