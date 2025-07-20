@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Domain.Contracts;
+﻿using LinkDev.Talabat.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 
         public async Task<TEntity?> GetAsync(TKey id)
         {
-            return await _dbContext.Set<TEntity>().FindAsync(id);
+            if(typeof(TEntity) == typeof(Product))
+            {
+                return await _dbContext.Set<Product>().Where(p => p.Id.Equals(id)).Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync() as TEntity;
+
+            }
+            return await _dbContext.Set<TEntity>().FindAsync(id); // This will return null if not found
         }
 
         public async Task AddAsync(TEntity entity)

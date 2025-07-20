@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Domain.Contracts
+namespace LinkDev.Talabat.Domain.Contracts.Persistence
 {
-    public interface IGenericRepository<TEntity ,TKey>
+    public interface IGenericRepository<TEntity, TKey>
         where TEntity : BaseEntity<TKey>
-        where TKey: IEquatable<TKey>
+        where TKey : IEquatable<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync(bool withTracing = false);
         Task<TEntity?> GetAsync(TKey id);
