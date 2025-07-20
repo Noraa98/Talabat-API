@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Application.Abstraction.Models.Products;
-using LinkDev.Talabat.Application.Abstraction.Services;
+using LinkDev.Talabat.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Domain.Contracts;
 using LinkDev.Talabat.Domain.Entities.Products;
 using System;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Application.Services
+namespace LinkDev.Talabat.Application.Services.Products
 {
-    internal class ProductService(IUnitOfWork unitOfWork , IMapper mapper) : IProductService
+    internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
         public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
         {
@@ -41,7 +41,7 @@ namespace LinkDev.Talabat.Application.Services
 
         }
 
-     
+
 
     }
 }
