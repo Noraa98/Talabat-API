@@ -15,7 +15,9 @@ namespace LinkDev.Talabat.Application.Mapping
         {
             CreateMap<Product, ProductToReturnDto>()
                 .ForMember(d => d.Brand, o => o.MapFrom(src => src.Brand!.Name))
-                .ForMember(d => d.Category, o => o.MapFrom(src => src.Category!.Name));
+                .ForMember(d => d.Category, o => o.MapFrom(src => src.Category!.Name))
+                //.ForMember(d => d.Category, o => o.MapFrom(src => $"{"https://localhost:7101"} {src.PictureUrl}"));
+                .ForMember(d => d.Category, o => o.MapFrom<ProductPictureUrlResolver>());
                 
             CreateMap<ProductBrand,BrandDto>();
             CreateMap<ProductCategory,CategoryDto>();
