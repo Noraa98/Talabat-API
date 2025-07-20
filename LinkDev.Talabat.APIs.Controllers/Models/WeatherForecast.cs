@@ -1,4 +1,4 @@
-namespace LinkDev.Talabat.APIs
+namespace LinkDev.Talabat.APIs.Controllers.Models
 {
     public class WeatherForecast
     {

@@ -8,6 +8,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinkDev.Talabat.APIs.Controllers\LinkDev.Talabat.APIs.Controllers.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Application.Abstraction\LinkDev.Talabat.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Application\LinkDev.Talabat.Application.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Infrastructure.Persistence\LinkDev.Talabat.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
