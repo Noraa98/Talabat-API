@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
 {
-    public class ProductController(IServiceManager serviceManager) : BaseApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
         [HttpGet] // GET: api/products
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()

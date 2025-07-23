@@ -1,6 +1,8 @@
-﻿using LinkDev.Talabat.Domain.Contracts.Persistence;
+﻿using LinkDev.Talabat.Domain.Contracts;
+using LinkDev.Talabat.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Domain.Entities.Products;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,30 +16,14 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         where TEntity : BaseEntity<TKey>
         where TKey : IEquatable<TKey>
     {
-        public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracing = false)
+        public async Task<IEnumerable<TEntity>> GetAllWithSpecsAsync(ISpecifications<TEntity, TKey> specs , bool withTracing = false)
         {
-            if (typeof(TEntity) == typeof(Product))
-                return withTracing ?
-                      (IEnumerable<TEntity>)await _dbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).ToListAsync() :
-                      (IEnumerable<TEntity>)await _dbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).AsNoTracking().ToListAsync();
-            if (withTracing)
-            {
-                return await _dbContext.Set<TEntity>().ToListAsync();
-            }
-            else
-            {
-                return await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
-            }
+            return await ApplySpecifications(specs).ToListAsync();
         }
 
-        public async Task<TEntity?> GetAsync(TKey id)
+        public async Task<TEntity?> GetWithSpecsAsync(ISpecifications<TEntity, TKey> specs)
         {
-            if(typeof(TEntity) == typeof(Product))
-            {
-                return await _dbContext.Set<Product>().Where(p => p.Id.Equals(id)).Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync() as TEntity;
-
-            }
-            return await _dbContext.Set<TEntity>().FindAsync(id); // This will return null if not found
+            return await ApplySpecifications(specs).FirstOrDefaultAsync();
         }
 
         public async Task AddAsync(TEntity entity)
@@ -54,5 +40,13 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
             _dbContext.Set<TEntity>().Remove(entity);
 
         }
+
+        #region Helpers
+
+        private IQueryable<TEntity> ApplySpecifications( ISpecifications<TEntity, TKey> specs)
+        {
+            return SpecificationsEvaluator.GetQuery<TEntity, TKey>(_dbContext.Set<TEntity>(), specs);
+        }
+        #endregion
     }
 }

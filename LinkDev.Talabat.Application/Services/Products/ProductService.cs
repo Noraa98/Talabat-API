@@ -3,6 +3,7 @@ using LinkDev.Talabat.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Domain.Entities.Products;
+using LinkDev.Talabat.Domain.Specifications.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,30 +16,32 @@ namespace LinkDev.Talabat.Application.Services.Products
     {
         public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
         {
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync();
+            var specs = new ProductWithBrandAndCategorySpecefications();
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecsAsync(specs);
             var productsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
             return productsToReturn;
         }
         public async Task<ProductToReturnDto> GetProductdAsync(int id)
         {
-            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
+            var specs = new ProductWithBrandAndCategorySpecefications(id);
+            var product = await unitOfWork.GetRepository<Product, int>().GetWithSpecsAsync(specs);
             var productToReturn = mapper.Map<ProductToReturnDto>(product);
             return productToReturn;
         }
+
         public async Task<IEnumerable<BrandDto>> GetBrandsAsync()
         {
-            var brands = await unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync();
-            var brandsToReturn = mapper.Map<IEnumerable<BrandDto>>(brands);
-            return brandsToReturn;
-
+            var spec = new EmptySpecification<ProductBrand, int>();
+            var brands = await unitOfWork.GetRepository<ProductBrand, int>().GetAllWithSpecsAsync(spec);
+            return mapper.Map<IEnumerable<BrandDto>>(brands);
         }
+
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
         {
-            var categories = await unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync();
-            var categoriesToReturn = mapper.Map<IEnumerable<CategoryDto>>(categories);
-            return categoriesToReturn;
-
+            var spec = new EmptySpecification<ProductCategory, int>();
+            var categories = await unitOfWork.GetRepository<ProductCategory, int>().GetAllWithSpecsAsync(spec);
+            return mapper.Map<IEnumerable<CategoryDto>>(categories);
         }
 
 

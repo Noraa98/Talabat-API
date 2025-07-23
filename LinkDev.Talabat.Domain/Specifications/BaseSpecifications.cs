@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Domain.Specifications
 {
-    internal class BaseSpecifications<TEntity, TKey> : ISpecifications<TEntity, TKey>
+    public class BaseSpecifications<TEntity, TKey> : ISpecifications<TEntity, TKey>
         where TEntity : BaseEntity<TKey>
         where TKey : IEquatable<TKey>
     {
@@ -25,5 +25,12 @@ namespace LinkDev.Talabat.Domain.Specifications
         {
             Criteria = E => E.Id.Equals(id);
         }
+
+
+        #region Helper Methods
+        private protected virtual void AddIncludes()
+        {
+        }
+        #endregion
     }
 }
