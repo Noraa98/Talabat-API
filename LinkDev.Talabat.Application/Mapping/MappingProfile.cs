@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Application.Mapping
 {
-    internal class MappingProfile : Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {
@@ -17,10 +17,12 @@ namespace LinkDev.Talabat.Application.Mapping
                 .ForMember(d => d.Brand, o => o.MapFrom(src => src.Brand!.Name))
                 .ForMember(d => d.Category, o => o.MapFrom(src => src.Category!.Name))
                 //.ForMember(d => d.Category, o => o.MapFrom(src => $"{"https://localhost:7101"} {src.PictureUrl}"));
-                .ForMember(d => d.Category, o => o.MapFrom<ProductPictureUrlResolver>());
-                
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductPictureUrlResolver>());
+
             CreateMap<ProductBrand,BrandDto>();
             CreateMap<ProductCategory,CategoryDto>();
         }
+      
     }
+
 }

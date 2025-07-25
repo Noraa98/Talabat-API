@@ -15,6 +15,8 @@ namespace LinkDev.Talabat.Domain.Specifications
         public Expression<Func<TEntity , bool>>? Criteria { get; set ; } = null;
         
        public List<Expression<Func<TEntity, object>>> Includes { get; set; } = new List<Expression<Func<TEntity, object>>>();
+        public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
+        public Expression<Func<TEntity, object>>? OrderByDesc { get; set ; } = null;
 
         // constructor to initialize the criteria and includes if needed
         public BaseSpecifications()
@@ -28,6 +30,19 @@ namespace LinkDev.Talabat.Domain.Specifications
 
 
         #region Helper Methods
+
+        private protected virtual void AddSorting(string sort)
+        {
+
+        }
+        private protected virtual void AddOrderBy( Expression<Func<TEntity,object>> orderBy)
+        {
+            OrderBy = orderBy;
+        }
+        private protected virtual void AddOrderByDesc(Expression<Func<TEntity, object>> orderByDesc)
+        {
+            OrderByDesc = orderByDesc;
+        }
         private protected virtual void AddIncludes()
         {
         }

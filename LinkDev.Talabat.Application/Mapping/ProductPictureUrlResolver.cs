@@ -10,17 +10,23 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Application.Mapping
 {
-    internal class ProductPictureUrlResolver(IConfiguration configuration) : IValueResolver<Product, ProductToReturnDto, string?>
+
+    public class ProductPictureUrlResolver : IValueResolver<Product, ProductToReturnDto, string?>
     {
-        private readonly IConfiguration _configuration = configuration;
+        private readonly IConfiguration _configuration;
+
+        public ProductPictureUrlResolver(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public string? Resolve(Product source, ProductToReturnDto destination, string? destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.PictureUrl))
-                return $"{configuration["Urls:ApiBaseUrl"]}/{source.PictureUrl}";
+                return $"{_configuration["Urls:ApiBaseUrl"]}/{source.PictureUrl}";
 
             return string.Empty;
-
         }
     }
+
 }

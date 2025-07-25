@@ -22,9 +22,16 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
                 query = query.Where(spec.Criteria);
             // query = query.Where(spec.Criteria); // P=> P.Id.Equals(1)
 
+            if (spec.OrderBy != null) // P=> P.Id
+                query = query.OrderBy(spec.OrderBy);
+
+            else if (spec.OrderByDesc != null) // P=> P.Id
+                query = query.OrderByDescending(spec.OrderByDesc);
+
+
             query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression)); // P=> P.Brand
             
-            return inputQuery;
+            return query;
         }
     }
 }

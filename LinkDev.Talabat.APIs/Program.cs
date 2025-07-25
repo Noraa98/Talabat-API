@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using LinkDev.Talabat.Application;
+using LinkDev.Talabat.Application.Mapping;
+using Microsoft.Extensions.DependencyInjection;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -31,6 +33,10 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddApplicationServices();
+
+           
+            
+
             #endregion
 
             var app = webApplicationBuilder.Build();
