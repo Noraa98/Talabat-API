@@ -1,10 +1,5 @@
 ﻿using LinkDev.Talabat.Domain.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Domain.Specifications
 {
@@ -13,8 +8,7 @@ namespace LinkDev.Talabat.Domain.Specifications
         where TKey : IEquatable<TKey>
     {
         public Expression<Func<TEntity , bool>>? Criteria { get; set ; } = null;
-        
-       public List<Expression<Func<TEntity, object>>> Includes { get; set; } = new List<Expression<Func<TEntity, object>>>();
+        public List<Expression<Func<TEntity, object>>> Includes { get; set; } = new List<Expression<Func<TEntity, object>>>();
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set ; } = null;
 

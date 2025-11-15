@@ -1,10 +1,5 @@
 ﻿using LinkDev.Talabat.Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository
 {
@@ -18,18 +13,24 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         { 
             var query = inputQuery; // _dbContext.Set<Product>()
             
+            // WHERE
             if (spec.Criteria != null) // P=> P.Id.Equals(1)
                 query = query.Where(spec.Criteria);
             // query = query.Where(spec.Criteria); // P=> P.Id.Equals(1)
 
+            // ORDER BY
             if (spec.OrderBy != null) // P=> P.Id
                 query = query.OrderBy(spec.OrderBy);
 
+            // ORDER BY DESC
             else if (spec.OrderByDesc != null) // P=> P.Id
                 query = query.OrderByDescending(spec.OrderByDesc);
 
-
-            query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression)); // P=> P.Brand
+            // INCLUDEs
+            query = spec.Includes.Aggregate(
+                query,
+                (currentQuery, includeExpression) => currentQuery.Include(includeExpression)
+                ); // P=> P.Brand
             
             return query;
         }

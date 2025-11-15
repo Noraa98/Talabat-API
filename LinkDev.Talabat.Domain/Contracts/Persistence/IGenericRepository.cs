@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.Talabat.Domain.Contracts.Persistence
+﻿namespace LinkDev.Talabat.Domain.Contracts.Persistence
 {
     public interface IGenericRepository<TEntity, TKey>
         where TEntity : BaseEntity<TKey>
