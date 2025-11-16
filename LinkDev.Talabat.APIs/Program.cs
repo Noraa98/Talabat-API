@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using LinkDev.Talabat.Application;
 using LinkDev.Talabat.Application.Mapping;
 using Microsoft.Extensions.DependencyInjection;
+using LinkDev.Talabat.APIs.Controllers.Errors;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -23,7 +24,27 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services
                 .AddControllers()
-                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly); // Register Required Services by AspNet Core
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly)
+                .ConfigureApiBehaviorOptions(options=>
+                {
+                    options.SuppressModelStateInvalidFilter = false; // the default behavior
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var errors = context.ModelState
+                        .Where(e => e.Value?.Errors.Count > 0)
+                        .Select(p => new ApiValidationErrorResponse.ValidationError()
+                        {
+                            Field = p.Key,
+                            Errors = p.Value!.Errors.Select(e => e.ErrorMessage)
+                        });
+                        var errorResponse = new ApiValidationErrorResponse
+                        {
+                            Errors = errors
+                        };
+                        return new BadRequestObjectResult(errorResponse);
+                    };
+                }
+                ); // Register Required Services by AspNet Core
                                                              // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
             // webApplicationBuilder.Services.AddOpenApi(); 

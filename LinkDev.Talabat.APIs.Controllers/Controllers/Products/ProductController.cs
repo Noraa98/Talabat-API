@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Base;
+using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.Application.Abstraction.Common;
 using LinkDev.Talabat.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Application.Abstraction.Services;
@@ -23,9 +24,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
         {
             var product = await serviceManager.ProductService.GetProductdAsync(id);
             if (product == null)
-            {
-                return NotFound(new { statusCode = 404, messege = "Not Found" });
-            }
+                return NotFound(new ApiResponse(404));
             return Ok(product);
         }
 
