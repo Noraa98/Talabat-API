@@ -12,8 +12,13 @@ namespace LinkDev.Talabat.Domain.Specifications
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set ; } = null;
 
-        // constructor to initialize the criteria and includes if needed
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPagingEnabled { get; set; } = false;
 
+
+
+        // constructor to initialize the criteria and includes if needed
         public BaseSpecifications()
         {
             
@@ -45,6 +50,14 @@ namespace LinkDev.Talabat.Domain.Specifications
         private protected virtual void AddIncludes()
         {
         }
+
+        protected void ApplyPagination(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
+        }
+
         #endregion
     }
 }

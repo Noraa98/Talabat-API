@@ -2,10 +2,11 @@
 
 namespace LinkDev.Talabat.Domain.Specifications.Products
 {
-    public class ProductWithBrandAndCategorySpecefications : BaseSpecifications<Product, int>
+    public class ProductWithBrandAndCategorySpecefications : BaseSpecifications<Entities.Products.Product, int>
     {
         public ProductWithBrandAndCategorySpecefications(string? sort,
-            int? BrandId, int? categoryId)
+            int? BrandId, int? categoryId, int pageIndex,
+    int pageSize)
             : base( P=>
 
                (!BrandId.HasValue || P.BrandId == BrandId.Value)

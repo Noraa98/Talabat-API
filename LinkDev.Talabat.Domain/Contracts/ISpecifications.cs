@@ -11,5 +11,9 @@ namespace LinkDev.Talabat.Domain.Contracts
         public Expression<Func<TEntity, object>>? OrderBy { get; set; }
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; }
 
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPagingEnabled { get; set; }
+
     }
 }

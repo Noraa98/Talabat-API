@@ -26,6 +26,11 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
             else if (spec.OrderByDesc != null) // P=> P.Id
                 query = query.OrderByDescending(spec.OrderByDesc);
 
+            // PAGING
+            if (spec.IsPagingEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
+
             // INCLUDEs
             query = spec.Includes.Aggregate(
                 query,

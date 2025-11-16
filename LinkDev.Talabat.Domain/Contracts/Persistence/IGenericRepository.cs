@@ -8,6 +8,9 @@
 
         Task<TEntity?> GetWithSpecsAsync(ISpecifications<TEntity, TKey> specs);
 
+        Task<int> CountAsync(ISpecifications<TEntity, TKey> specs);
+
+
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         void DeleteAsync(TEntity entity);
