@@ -2,11 +2,6 @@
 using LinkDev.Talabat.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Application.Abstraction.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
 {
@@ -15,11 +10,15 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
     public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
         [HttpGet] // GET: api/products
-        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts(string sort)
+        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts(string? sort ,
+            int? BrandId, int? categoryId)
         {
-            var products = await serviceManager.ProductService.GetProductsAsync(sort);
+            var products = await serviceManager.ProductService.GetProductsAsync(sort ,
+            BrandId, categoryId);
             return Ok(products);
         }
+
+
         [HttpGet("{id:int}")] // GET: api/products/{id}
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
@@ -31,12 +30,16 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
             return Ok(product);
         }
 
+
+
         [HttpGet("brands")] // GET: api/products/brands
         public async Task<ActionResult<IEnumerable<BrandDto>>> GetBrands()
         {
             var brands = await serviceManager.ProductService.GetBrandsAsync();
             return Ok(brands);
         }
+
+
 
         [HttpGet("categories")] // GET: api/products/categories
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()

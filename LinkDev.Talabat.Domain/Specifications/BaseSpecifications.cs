@@ -13,9 +13,14 @@ namespace LinkDev.Talabat.Domain.Specifications
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set ; } = null;
 
         // constructor to initialize the criteria and includes if needed
+
         public BaseSpecifications()
         {
-            // Criteria = null;
+            
+        }
+        public BaseSpecifications(Expression<Func<TEntity,bool>> criteriaExpression)
+        {
+             Criteria = criteriaExpression;
         }
         public BaseSpecifications(TKey id)
         {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Talabat.APIs.Controllers.Base
 {
@@ -8,4 +7,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Base
     public class BaseApiController : ControllerBase
     {
     }
+
 }
+
+// project flow : HTTP Request → BaseApiController → ProductsController → ServiceManager → ProductService → UnitOfWork → Repository → DbContext → Database → DTOs → Response

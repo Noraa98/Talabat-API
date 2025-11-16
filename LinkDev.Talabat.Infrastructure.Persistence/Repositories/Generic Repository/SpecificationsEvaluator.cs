@@ -30,7 +30,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
             query = spec.Includes.Aggregate(
                 query,
                 (currentQuery, includeExpression) => currentQuery.Include(includeExpression)
-                ); // P=> P.Brand
+            ); // P=> P.Brand
             
             return query;
         }

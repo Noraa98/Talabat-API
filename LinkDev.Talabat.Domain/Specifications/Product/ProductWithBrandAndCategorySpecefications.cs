@@ -4,8 +4,17 @@ namespace LinkDev.Talabat.Domain.Specifications.Products
 {
     public class ProductWithBrandAndCategorySpecefications : BaseSpecifications<Product, int>
     {
-        public ProductWithBrandAndCategorySpecefications(string sort)
-            : base()
+        public ProductWithBrandAndCategorySpecefications(string? sort,
+            int? BrandId, int? categoryId)
+            : base( P=>
+
+               (!BrandId.HasValue || P.BrandId == BrandId.Value)
+
+               &&
+
+                (!categoryId.HasValue || P.CategoryId == categoryId.Value)
+
+                  )
         {
             AddIncludes();
 
@@ -27,15 +36,15 @@ namespace LinkDev.Talabat.Domain.Specifications.Products
             Includes.Add(p => p.Category!);
         }
 
-        private protected override void AddSorting(string sort)
+        private protected override void AddSorting(string? sort)
         {
-            switch (sort.ToLower())
+            switch (sort?.ToLower())
             {
-                case "priceAsc":
+                case "priceasc":
                     //OrderBy = p => p.Price;
                     AddOrderBy(p => p.Price);
                     break;
-                case "priceDesc":
+                case "pricedesc":
                     //OrderByDesc = p => p.Price;
                     AddOrderByDesc(p => p.Price);
                     break;

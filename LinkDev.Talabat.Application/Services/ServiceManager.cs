@@ -3,11 +3,6 @@ using LinkDev.Talabat.Application.Abstraction.Services;
 using LinkDev.Talabat.Application.Abstraction.Services.Products;
 using LinkDev.Talabat.Application.Services.Products;
 using LinkDev.Talabat.Domain.Contracts.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Application.Services
 {
@@ -25,6 +20,13 @@ namespace LinkDev.Talabat.Application.Services
             _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper));
         }
         public IProductService ProductService => _productService.Value;
+
+
+
+
+
+        // project flow: Controller → ServiceManager → ProductService → UnitOfWork → GenericRepository → Specification → DbContext → Database → DTOs
+
 
     }
 }

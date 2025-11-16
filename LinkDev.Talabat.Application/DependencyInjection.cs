@@ -2,7 +2,6 @@
 using LinkDev.Talabat.Application.Mapping;
 using LinkDev.Talabat.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 
 namespace LinkDev.Talabat.Application
 {
