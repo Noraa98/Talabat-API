@@ -14,13 +14,13 @@ namespace LinkDev.Talabat.Application.Services.Products
         public async Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams)
         {
             var specs = new ProductWithBrandAndCategorySpecefications(specParams.Sort, specParams.BrandId, specParams.CategoryId
-                , specParams.PageIndex , specParams.PageSize);
+                , specParams.PageIndex , specParams.PageSize ,specParams.Search);
 
 
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecsAsync(specs);
 
-            var countSpecs = new ProductForCountSpecification(specParams.BrandId, specParams.CategoryId);
+            var countSpecs = new ProductForCountSpecification(specParams.BrandId, specParams.CategoryId ,specParams.Search);
 
             var count = await unitOfWork
                 .GetRepository<Product, int>()
