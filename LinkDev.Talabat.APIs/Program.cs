@@ -1,14 +1,9 @@
-using LinkDev.Talabat.APIs.Extensions;
-using LinkDev.Talabat.Domain.Contracts;
-using LinkDev.Talabat.Infrastructure.Persistence;
-using LinkDev.Talabat.Infrastructure.Persistence.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using LinkDev.Talabat.Application;
-using LinkDev.Talabat.Application.Mapping;
-using Microsoft.Extensions.DependencyInjection;
 using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Extensions;
+using LinkDev.Talabat.APIs.MiddleWares;
+using LinkDev.Talabat.Application;
+using LinkDev.Talabat.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -69,6 +64,8 @@ namespace LinkDev.Talabat.APIs
             #endregion
 
             #region Configure Kestrel Middlewares
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -1,4 +1,6 @@
-﻿namespace LinkDev.Talabat.APIs.Controllers.Errors
+﻿using System.Text.Json;
+
+namespace LinkDev.Talabat.APIs.Controllers.Errors
 {
     public class ApiResponse
     {
@@ -22,6 +24,14 @@
                 _ => null
             };
         }
+
+
+        // override ToString for json output
+        public override string? ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
     }
 
 }
