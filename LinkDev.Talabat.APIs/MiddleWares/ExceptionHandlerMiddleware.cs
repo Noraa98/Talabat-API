@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.Application.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -28,13 +29,34 @@ namespace LinkDev.Talabat.APIs.MiddleWares
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
-                var response = _env.IsDevelopment()
+                ApiResponse response;
+                switch(ex)
+                {
+                    case NotFoundException:
+                        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        response = new ApiResponse((int)HttpStatusCode.NotFound, ex.Message);
+                        break;
+                    case BadRequestException:
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        response = new ApiResponse((int)HttpStatusCode.BadRequest, ex.Message);
+                        break;
+                    //case Application.Exceptions.ValidationException validationException:
+                    //    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    //    break;
+                    default:
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        response = _env.IsDevelopment()
                     ? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace!.ToString())
-                    : new ApiExceptionResponse((int)HttpStatusCode.InternalServerError , ex.Message);
+                    : new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message);
 
+                        break;
+                }
+
+
+                context.Response.ContentType = "application/json";
+
+               
                 var options = new JsonSerializerOptions()
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
