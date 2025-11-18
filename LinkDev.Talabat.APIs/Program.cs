@@ -4,6 +4,7 @@ using LinkDev.Talabat.APIs.MiddleWares;
 using LinkDev.Talabat.Application;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.Infrastructure;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -50,8 +51,8 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddApplicationServices();
 
-           
-            
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
 
             #endregion
 
