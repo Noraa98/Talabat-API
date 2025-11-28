@@ -1,11 +1,11 @@
 # Talabat API (ASP.NET Core Web API)
 
-**One-line Description:**
+**Description:**
 A complete food-ordering RESTful API built using **Clean Architecture**, featuring Generic Repositories, Generic Services, Authentication/Authorization, and secure request handling.
 
 ---
 
-## 3-Point Professional Description
+## Professional Description
 
 1. **Scalable Clean Architecture:** Implemented using a clean, modular structure with **Generic Repositories** and **Generic Services**, ensuring high maintainability, reusability, and separation of concerns.
 2. **Core Ordering Features:** Includes **Product Module**, **Cart (In-Memory DB)**, and **Order Processing** with state management, validation, and calculation logic.
@@ -156,16 +156,16 @@ dotnet run --project src/API
 ### Login Example
 
 ```bash
-curl -X POST https://localhost:5001/api/auth/login \
- -H "Content-Type: application/json" \
+curl -X POST https://localhost:7101/api/auth/login 
+ -H "Content-Type: application/json" 
  -d '{"email":"user@example.com","password":"P@ssw0rd"}'
 ```
 
 ### Add Item to Cart
 
 ```bash
-curl -X POST https://localhost:5001/api/cart \
- -H "Content-Type: application/json" \
+curl -X POST https://localhost:7101/api/cart 
+ -H "Content-Type: application/json" 
  -d '{"productId": 12, "quantity": 2}'
 ```
 
@@ -197,7 +197,7 @@ MIT License
 
 ## Contact
 
-* **Name:** Your Name
+* **Name:** Noura Ahmed
 * **Email:** [noura.ahmed7258@gmail.com](mailto:noura.ahmed7258@gmail.com)
 * **LinkedIn:** https://www.linkedin.com/in/noura-ahmed-36779b304
 
