@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Domain.Contracts.Persistence;
+﻿using LinkDev.Talabat.Domain.Contracts.Persistence.DbInitializers;
 
 namespace LinkDev.Talabat.APIs.Extensions
 {
@@ -10,7 +10,8 @@ namespace LinkDev.Talabat.APIs.Extensions
             var services = scope.ServiceProvider;
 
             var storeContextInitializer = services.GetRequiredService<IStoreContextInitializer>();
-            // Ask The Runtime env for an object from "StoreContext" service explicitly
+            var IdentityDbInitializer = services.GetRequiredService<IStoreIdentityDbInitializer>();
+
 
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
@@ -18,6 +19,10 @@ namespace LinkDev.Talabat.APIs.Extensions
             {
                 await storeContextInitializer.InitializeAsync();
                 await storeContextInitializer.SeedAsync(); // Seed Data to the Database
+
+
+                await IdentityDbInitializer.InitializeAsync();
+                await IdentityDbInitializer.SeedAsync(); // Seed Data to the Database
 
             }
             catch (Exception ex)

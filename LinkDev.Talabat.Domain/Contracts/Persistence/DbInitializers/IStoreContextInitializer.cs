@@ -1,4 +1,4 @@
-﻿namespace LinkDev.Talabat.Domain.Contracts.Persistence
+﻿namespace LinkDev.Talabat.Domain.Contracts.Persistence.DbInitializers
 {
     public interface IStoreContextInitializer
     {

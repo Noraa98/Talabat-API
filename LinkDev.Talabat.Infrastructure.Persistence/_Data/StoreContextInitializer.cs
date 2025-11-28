@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Domain.Contracts.Persistence;
+﻿using LinkDev.Talabat.Domain.Contracts.Persistence.DbInitializers;
 using LinkDev.Talabat.Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;

@@ -47,9 +47,10 @@ namespace LinkDev.Talabat.APIs.MiddleWares
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         response = new ApiResponse((int)HttpStatusCode.BadRequest, ex.Message);
                         break;
-                    //case Application.Exceptions.ValidationException validationException:
-                    //    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    //    break;
+                    case UnAuthorizeException:
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        response = new ApiResponse((int)HttpStatusCode.Unauthorized, ex.Message);
+                        break;
                     default:
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         response = _env.IsDevelopment()

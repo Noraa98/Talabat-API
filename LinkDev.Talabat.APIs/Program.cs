@@ -2,9 +2,9 @@ using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Extensions;
 using LinkDev.Talabat.APIs.MiddleWares;
 using LinkDev.Talabat.Application;
+using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using LinkDev.Talabat.Infrastructure;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -53,6 +53,7 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddIdentityServices();
 
             #endregion
 
@@ -81,6 +82,7 @@ namespace LinkDev.Talabat.APIs
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseStaticFiles();
