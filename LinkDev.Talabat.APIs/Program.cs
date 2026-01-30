@@ -1,32 +1,66 @@
-
+using LinkDev.Talabat.APIs.Extensions;
+using LinkDev.Talabat.Domain.Contracts;
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using LinkDev.Talabat.Application;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        // Entry point for the application.
+        public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var webApplicationBuilder = WebApplication.CreateBuilder(args);
+
+            #region Configure Services
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            webApplicationBuilder.Services
+                .AddControllers()
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly); // Register Required Services by AspNet Core
+                                                             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
-            var app = builder.Build();
+            // webApplicationBuilder.Services.AddOpenApi(); 
+            webApplicationBuilder.Services.AddEndpointsApiExplorer();
+            webApplicationBuilder.Services.AddSwaggerGen();
+
+            webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddApplicationServices();
+            #endregion
+
+            var app = webApplicationBuilder.Build();
+
+            #region  Databases Initalization
+
+            await app.InitializeStoreContextAsync();
+
+            #endregion
+
+            #region Configure Kestrel Middlewares
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                // app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
             }
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
             app.MapControllers();
+
+            #endregion
 
             app.Run();
         }
